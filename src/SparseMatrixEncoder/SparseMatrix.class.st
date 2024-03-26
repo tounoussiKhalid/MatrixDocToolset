@@ -1,6 +1,6 @@
 Class {
 	#name : #SparseMatrix,
-	#superclass : #Object,
+	#superclass : #Matrix,
 	#instVars : [
 		'elements'
 	],
@@ -9,8 +9,13 @@ Class {
 
 { #category : #initialization }
 SparseMatrix >> addValue: aValue atRow: rowIndex column: columnIndex [
+    elements at: (rowIndex -> columnIndex) put: aValue.
+]
 
-	elements at: rowIndex -> columnIndex put: aValue
+{ #category : #adding }
+SparseMatrix >> asSparseMatrix [
+    "Puisque c'est déjà une SparseMatrix, retourne simplement self."
+    ^ self.
 ]
 
 { #category : #initialization }
@@ -27,19 +32,16 @@ SparseMatrix >> asTraditionalMatrix [
 
 { #category : #accessing }
 SparseMatrix >> elements [
-
-	^ elements
+    ^ elements
 ]
 
 { #category : #initialization }
 SparseMatrix >> initialize [
-
-	super initialize.
-	elements := Dictionary new
+    super initialize.
+    elements := Dictionary new.
 ]
 
 { #category : #initialization }
 SparseMatrix >> valueAtRow: rowIndex column: columnIndex [
-
-	^ elements at: rowIndex -> columnIndex ifAbsent: [ 0 ]
+    ^ elements at: (rowIndex -> columnIndex) ifAbsent: [0].
 ]

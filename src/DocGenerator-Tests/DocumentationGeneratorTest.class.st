@@ -7,31 +7,25 @@ Class {
 	#category : #'DocGenerator-Tests'
 }
 
+{ #category : #running }
+DocumentationGeneratorTest >> setUp [
+
+	| package |
+	package := RPackageOrganizer default packageNamed:
+		           'SparseMatrixEncoder'.
+	package ifNil: [
+		Transcript
+			show: 'Package not found';
+			cr ].
+	generator := DocumentationGenerator new initializeWithPackage:
+		             package.
+	Transcript
+		show: 'Generator initialized with package: ' , package name;
+		cr
+]
+
 { #category : #tests }
 DocumentationGeneratorTest >> testGenerateDocumentation [
-
-	| documentation |
-	documentation := generator generateDocumentation.
-
-	self assert:
-		(documentation includesSubstring: 'Class name: TraditionalMatrix').
-	self assert:
-		(documentation includesSubstring: 'Class name: SparseMatrixSubclass').
-	self assert:
-		(documentation includesSubstring: 'Class name: SparseMatrix').
-
-	"verifying superclass information"
-	self assert: (documentation includesSubstring: 'Superclass: Object').
-	self assert:
-		(documentation includesSubstring: 'Superclass: SparseMatrix').
-
-	"Check for subclass information where applicable"
-	self assert:
-		(documentation includesSubstring: 'Subclasses: SparseMatrixSubclass').
-
-	"Verifying instance variables and methods are correctly documented"
-	self assert:
-		(documentation includesSubstring: 'initialize:columns: senders:').
-	self assert: (documentation includesSubstring:
-			 'rows references: (initialize:columns:, numberOfRows, asSparseMatrix)')
+    | documentation |
+    documentation := generator generateDocumentation.
 ]

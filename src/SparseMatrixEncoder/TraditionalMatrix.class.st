@@ -1,6 +1,6 @@
 Class {
 	#name : #TraditionalMatrix,
-	#superclass : #Object,
+	#superclass : #Matrix,
 	#instVars : [
 		'rows',
 		'columns',
@@ -22,43 +22,44 @@ TraditionalMatrix >> addValue: aValue atRow: rowIndex column: columnIndex [
 
 { #category : #initialization }
 TraditionalMatrix >> asSparseMatrix [
+    | sparseMatrix |
+    sparseMatrix := SparseMatrix new.
+    1 to: rows do: [:i |
+        1 to: columns do: [:j |
+            | value |
+            value := self valueAtRow: i column: j.
+            value ~= 0 ifTrue: [sparseMatrix addValue: value atRow: i column: j]]].
+    ^ sparseMatrix.
 
-	| sparseMatrix |
-	sparseMatrix := SparseMatrix new.
-	1 to: rows do: [ :i |
-		1 to: columns do: [ :j |
-			| value |
-			value := self valueAtRow: i column: j.
-			value ~= 0 ifTrue: [
-				sparseMatrix addValue: value atRow: i column: j ] ] ].
-	^ sparseMatrix
+]
+
+{ #category : #adding }
+TraditionalMatrix >> asTraditionalMatrix [
+    "Puisque c'est déjà une TraditionalMatrix, retourne simplement self."
+    ^ self.
 ]
 
 { #category : #initialization }
 TraditionalMatrix >> initialize: aNumberOfRows columns: aNumberOfColumns [
-
-	super initialize.
-	rows := aNumberOfRows.
-	columns := aNumberOfColumns.
-	elements := Array new: rows.
-	1 to: rows do: [ :i |
-	elements at: i put: (Array new: columns withAll: 0) ]
+    self initialize.
+    rows := aNumberOfRows.
+    columns := aNumberOfColumns.
+    elements := Array new: rows.
+    1 to: rows do: [:i | elements at: i put: (Array new: columns withAll: 0)].
 ]
 
 { #category : #accessing }
 TraditionalMatrix >> numberOfColumns [
-
-	^ columns
+    ^ columns.
 ]
 
 { #category : #accessing }
 TraditionalMatrix >> numberOfRows [
+    ^ rows.
 
-	^ rows
 ]
 
 { #category : #initialization }
 TraditionalMatrix >> valueAtRow: rowIndex column: columnIndex [
-
-	^ (elements at: rowIndex) at: columnIndex
+    ^ (elements at: rowIndex) at: columnIndex.
 ]
