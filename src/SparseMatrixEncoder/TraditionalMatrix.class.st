@@ -16,8 +16,7 @@ TraditionalMatrix class >> new: aNumberOfRows columns: aNumberOfColumns [
 
 { #category : #initialization }
 TraditionalMatrix >> addValue: aValue atRow: rowIndex column: columnIndex [
-
-	(elements at: rowIndex) at: columnIndex put: aValue
+    (elements at: rowIndex) at: columnIndex put: aValue.
 ]
 
 { #category : #initialization }
@@ -35,13 +34,13 @@ TraditionalMatrix >> asSparseMatrix [
 
 { #category : #adding }
 TraditionalMatrix >> asTraditionalMatrix [
-    "Puisque c'est déjà une TraditionalMatrix, retourne simplement self."
-    ^ self.
+    "Convertit la matrice en une TraditionalMatrix."
+    ^self
 ]
 
 { #category : #initialization }
 TraditionalMatrix >> initialize: aNumberOfRows columns: aNumberOfColumns [
-    self initialize.
+    super initialize.
     rows := aNumberOfRows.
     columns := aNumberOfColumns.
     elements := Array new: rows.
